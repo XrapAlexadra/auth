@@ -1,13 +1,13 @@
 package edu.epam.auth.controller.filter;
 
-import edu.epam.auth.util.ParameterConstant;
+import edu.epam.auth.constant.ParameterConstant;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(filterName = "Encoding", urlPatterns = "/*")
+@WebFilter(filterName = "Encoding", urlPatterns = "/main")
 public class NoActionFilter implements Filter {
 
     @Override
