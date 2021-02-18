@@ -2,13 +2,14 @@ package edu.epam.auth.controller.impl;
 
 import edu.epam.auth.controller.Command;
 import edu.epam.auth.controller.CommandResult;
+import edu.epam.auth.controller.RequestContent;
 import edu.epam.auth.exception.ServiceException;
 import edu.epam.auth.service.UserService;
 import edu.epam.auth.service.impl.UserServiceImpl;
-import edu.epam.auth.util.AttributeConstant;
-import edu.epam.auth.util.MessageConstant;
-import edu.epam.auth.util.PageConstant;
-import edu.epam.auth.util.ParameterConstant;
+import edu.epam.auth.constant.AttributeConstant;
+import edu.epam.auth.constant.MessageConstant;
+import edu.epam.auth.constant.PageConstant;
+import edu.epam.auth.constant.ParameterConstant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,20 +24,20 @@ public class ChangePasswordCommand implements Command {
     private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req) throws ServletException {
-        String password = req.getParameter(ParameterConstant.PASSWORD);
-        String newPassword = req.getParameter(ParameterConstant.NEW_PASSWORD);
-        String repeatedPassword = req.getParameter(ParameterConstant.REPEAT_PASSWORD);
-        String login = req.getParameter(ParameterConstant.LOGIN);
+    public CommandResult execute(RequestContent requestContent) throws ServletException {
+        String password = requestContent.getRequestParameter(ParameterConstant.PASSWORD)[0];
+        String newPassword = requestContent.getRequestParameter(ParameterConstant.NEW_PASSWORD)[0];
+        String repeatedPassword = requestContent.getRequestParameter(ParameterConstant.REPEAT_PASSWORD)[0];
+        String login = requestContent.getRequestParameter(ParameterConstant.LOGIN)[0];
 
         List<String> changePasswordResult;
         try {
             changePasswordResult = userService.changePassword(login, password, newPassword, repeatedPassword);
             if (changePasswordResult.isEmpty()) {
-                req.setAttribute(AttributeConstant.MESSAGE, MessageConstant.SUCCESSFULLY_CHANGE_PASSWORD);
+                requestContent.putRequestAttribute(AttributeConstant.MESSAGE, MessageConstant.SUCCESSFULLY_CHANGE_PASSWORD);
                 logger.info("User :{} changed password.", login);
             } else {
-                req.setAttribute(AttributeConstant.ERRORS, changePasswordResult);
+                requestContent.putRequestAttribute(AttributeConstant.ERRORS, changePasswordResult);
                 logger.info("Impossible change user: {} password. {}", login, changePasswordResult);
             }
         } catch (ServiceException e) {

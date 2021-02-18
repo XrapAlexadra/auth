@@ -11,8 +11,8 @@
 </head>
 <body>
 <div class="container-fluid">
-    <%@include file="/WEB-INF/part/locale.jsp"%>
-    <%@include file="/WEB-INF/part/header.jsp"%>
+    <%@include file="/WEB-INF/part/locale.jsp" %>
+    <%@include file="/WEB-INF/part/header.jsp" %>
     <c:import url="/WEB-INF/part/message.jsp"/>
 
 
@@ -20,7 +20,7 @@
         <h5 class="card-header"><fmt:message key="form.registration" bundle="${b}"/></h5>
         <div class="card-body">
             <div class="panel-body">
-                <form method="post" action="${pageContext.request.contextPath}/main">
+                <form method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/multipart">
                     <div class="mb-3">
                         <label for="login" class="form-label">
                             <fmt:message key="title.login" bundle="${b}"/>
@@ -87,6 +87,10 @@
                                 <fmt:message key="message.invalid.password" bundle="${b}"/>
                             </div>
                         </c:if>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">file</label>
+                        <input type="file" id="image" name="image" size="300"/>
                     </div>
                     <input type="hidden" name="action" value="registration">
                     <button type="submit" class="btn btn-primary">

@@ -2,14 +2,15 @@ package edu.epam.auth.controller.impl;
 
 import edu.epam.auth.controller.Command;
 import edu.epam.auth.controller.CommandResult;
+import edu.epam.auth.controller.RequestContent;
 import edu.epam.auth.exception.ServiceException;
 import edu.epam.auth.model.User;
 import edu.epam.auth.service.UserService;
 import edu.epam.auth.service.impl.UserServiceImpl;
-import edu.epam.auth.util.AttributeConstant;
-import edu.epam.auth.util.MessageConstant;
-import edu.epam.auth.util.PageConstant;
-import edu.epam.auth.util.ParameterConstant;
+import edu.epam.auth.constant.AttributeConstant;
+import edu.epam.auth.constant.MessageConstant;
+import edu.epam.auth.constant.PageConstant;
+import edu.epam.auth.constant.ParameterConstant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,9 +25,9 @@ public class LoginCommand implements Command {
     private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req) throws ServletException {
-        String login = req.getParameter(ParameterConstant.LOGIN);
-        String pass = req.getParameter(ParameterConstant.PASSWORD);
+    public CommandResult execute(RequestContent requestContent) throws ServletException {
+        String login = requestContent.getRequestParameter(ParameterConstant.LOGIN)[0];
+        String pass = requestContent.getRequestParameter(ParameterConstant.PASSWORD)[0];
 
         User user = new User();
         user.setLogin(login);
@@ -38,17 +39,16 @@ public class LoginCommand implements Command {
             throw new ServletException(e);
         }
 
-        HttpSession session = req.getSession();
         CommandResult commandResult;
         if (loginResult.isEmpty()) {
-            session.setAttribute(AttributeConstant.USER, user);
+            requestContent.putSessionAttribute(AttributeConstant.USER, user);
             commandResult = CommandResult.setRedirectPage(PageConstant.INDEX_PAGE);
             logger.info("User login :{}", user);
         } else {
             if (loginResult.equals(MessageConstant.WRONG_PASSWORD) || loginResult.equals(MessageConstant.NOT_FIND_USER_BY_LOGIN)) {
-                req.setAttribute(ParameterConstant.LOGIN, login);
+                requestContent.putRequestAttribute(ParameterConstant.LOGIN, login);
             }
-            req.setAttribute(AttributeConstant.ERROR, loginResult);
+            requestContent.putRequestAttribute(AttributeConstant.ERROR, loginResult);
             commandResult = CommandResult.setForwardPage(PageConstant.LOGIN_PAGE);
             logger.info("{}. Impossible login user : {}.", loginResult, user);
         }

@@ -5,7 +5,7 @@ import edu.epam.auth.model.User;
 import java.util.HashMap;
 import java.util.Map;
 
-import static edu.epam.auth.util.MessageConstant.*;
+import static edu.epam.auth.constant.MessageConstant.*;
 
 public class UserValidator {
 

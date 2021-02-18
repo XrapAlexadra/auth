@@ -10,12 +10,14 @@ import edu.epam.auth.model.UserStatus;
 import edu.epam.auth.dao.impl.UserDaoImpl;
 import edu.epam.auth.service.UserService;
 import edu.epam.auth.util.PasswordEncoder;
+import edu.epam.auth.constant.PathConstant;
 import edu.epam.auth.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static edu.epam.auth.util.MessageConstant.*;
+import static edu.epam.auth.constant.MessageConstant.*;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -57,6 +59,9 @@ public class UserServiceImpl implements UserService {
                     user.setId(userId);
                     logger.info("Save user {} in repository.", user);
                 } else {
+                    String imageName = user.getImage();
+                    File userImage = new File(PathConstant.USER_IMAGE_PATH + imageName);
+                    userImage.delete();
                     logger.info("Impossible register. User: {} has invalid data.", user.getLogin());
                 }
             }

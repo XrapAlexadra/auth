@@ -1,4 +1,4 @@
-package edu.epam.auth.util;
+package edu.epam.auth.constant;
 
 public class MessageConstant {
 

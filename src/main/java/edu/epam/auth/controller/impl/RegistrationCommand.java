@@ -1,17 +1,19 @@
 package edu.epam.auth.controller.impl;
 
+import edu.epam.auth.constant.ParameterConstant;
 import edu.epam.auth.controller.Command;
 import edu.epam.auth.controller.CommandResult;
+import edu.epam.auth.controller.RequestContent;
 import edu.epam.auth.exception.ServiceException;
 import edu.epam.auth.model.User;
 import edu.epam.auth.service.UserService;
 import edu.epam.auth.util.MailSender;
 import edu.epam.auth.service.impl.UserServiceImpl;
-import edu.epam.auth.util.AttributeConstant;
-import edu.epam.auth.util.PageConstant;
+import edu.epam.auth.constant.AttributeConstant;
+import edu.epam.auth.constant.PageConstant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import static edu.epam.auth.util.ParameterConstant.*;
+import static edu.epam.auth.constant.ParameterConstant.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -26,17 +28,20 @@ public class RegistrationCommand implements Command {
     private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req) throws ServletException {
-        String login = req.getParameter(LOGIN);
-        String password = req.getParameter(PASSWORD);
-        String passwordRepeat = req.getParameter(REPEAT_PASSWORD);
-        String email = req.getParameter(EMAIL);
+    public CommandResult execute(RequestContent requestContent) throws ServletException {
+
+        String login = requestContent.getRequestParameter(LOGIN)[0];
+        String password = requestContent.getRequestParameter(PASSWORD)[0];
+        String passwordRepeat =requestContent.getRequestParameter(REPEAT_PASSWORD)[0];
+        String email = requestContent.getRequestParameter(EMAIL)[0];
+        String image = requestContent.getRequestParameter(IMAGE)[0];
 
         CommandResult commandResult;
         Map<String, String> registerUserResult;
             User user = new User();
             user.setLogin(login);
             user.setEmail(email);
+            user.setImage(image);
             try {
                 registerUserResult = userService.register(user, password, passwordRepeat);
                 if (registerUserResult.isEmpty()) {
@@ -46,16 +51,16 @@ public class RegistrationCommand implements Command {
                 } else {
                     logger.info("Impossible register user with login: {}. This login already exist.", login);
                     if(!registerUserResult.containsKey(login)){
-                        req.setAttribute(LOGIN, login);
+                        requestContent.putRequestAttribute(LOGIN, login);
                     }
                     if(!registerUserResult.containsKey(email)){
-                        req.setAttribute(EMAIL, email);
+                        requestContent.putRequestAttribute(EMAIL, email);
                     }
                     if(!registerUserResult.containsKey(password)){
-                        req.setAttribute(PASSWORD, password);
+                        requestContent.putRequestAttribute(PASSWORD, password);
                     }
                     List<String> errorList = new ArrayList<>(registerUserResult.values());
-                    req.setAttribute(AttributeConstant.ERRORS, errorList);
+                    requestContent.putRequestAttribute(AttributeConstant.ERRORS, errorList);
                     commandResult = CommandResult.setForwardPage(PageConstant.AUTH_PAGE);
                 }
             } catch (ServiceException e) {

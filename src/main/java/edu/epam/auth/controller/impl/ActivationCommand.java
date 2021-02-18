@@ -2,13 +2,14 @@ package edu.epam.auth.controller.impl;
 
 import edu.epam.auth.controller.Command;
 import edu.epam.auth.controller.CommandResult;
+import edu.epam.auth.controller.RequestContent;
 import edu.epam.auth.exception.ServiceException;
 import edu.epam.auth.service.UserService;
 import edu.epam.auth.service.impl.UserServiceImpl;
-import edu.epam.auth.util.AttributeConstant;
-import edu.epam.auth.util.MessageConstant;
-import edu.epam.auth.util.PageConstant;
-import edu.epam.auth.util.ParameterConstant;
+import edu.epam.auth.constant.AttributeConstant;
+import edu.epam.auth.constant.MessageConstant;
+import edu.epam.auth.constant.PageConstant;
+import edu.epam.auth.constant.ParameterConstant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,19 +23,19 @@ public class ActivationCommand implements Command {
     private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req) throws ServletException {
-        String activationKey = req.getParameter(ParameterConstant.ACTIVATION_KEY);
-        String login = req.getParameter(ParameterConstant.LOGIN);
+    public CommandResult execute(RequestContent requestContent) throws ServletException {
+        String activationKey = requestContent.getRequestParameter(ParameterConstant.ACTIVATION_KEY)[0];
+        String login = requestContent.getRequestParameter(ParameterConstant.LOGIN)[0];
         CommandResult commandResult;
             try {
                 String activationResult = userService.checkActivationKey(login, activationKey);
                 if (activationResult.equals(MessageConstant.SUCCESSFULLY_ACTIVATION)) {
                     commandResult = CommandResult.setForwardPage(PageConstant.LOGIN_PAGE);
-                    req.setAttribute(AttributeConstant.MESSAGE, activationResult);
+                    requestContent.putRequestAttribute(AttributeConstant.MESSAGE, activationResult);
                     logger.info("Activate user: {}.", login);
                 } else {
                     commandResult = CommandResult.setForwardPage(PageConstant.USER_ACTIVATION_PAGE);
-                    req.setAttribute(AttributeConstant.MESSAGE, activationResult);
+                    requestContent.putRequestAttribute(AttributeConstant.MESSAGE, activationResult);
                     logger.info("Impossible activate user: {}. {}", login, activationResult);
                 }
             } catch (ServiceException e) {

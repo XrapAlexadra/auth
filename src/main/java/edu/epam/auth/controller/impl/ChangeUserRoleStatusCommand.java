@@ -2,15 +2,16 @@ package edu.epam.auth.controller.impl;
 
 import edu.epam.auth.controller.Command;
 import edu.epam.auth.controller.CommandResult;
+import edu.epam.auth.controller.RequestContent;
 import edu.epam.auth.exception.ServiceException;
 import edu.epam.auth.model.Role;
 import edu.epam.auth.model.UserStatus;
 import edu.epam.auth.service.UserService;
 import edu.epam.auth.service.impl.UserServiceImpl;
-import edu.epam.auth.util.AttributeConstant;
-import edu.epam.auth.util.MessageConstant;
-import edu.epam.auth.util.PageConstant;
-import edu.epam.auth.util.ParameterConstant;
+import edu.epam.auth.constant.AttributeConstant;
+import edu.epam.auth.constant.MessageConstant;
+import edu.epam.auth.constant.PageConstant;
+import edu.epam.auth.constant.ParameterConstant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,17 +26,18 @@ public class ChangeUserRoleStatusCommand implements Command {
 
 
     @Override
-    public CommandResult execute(HttpServletRequest req) throws ServletException {
-        String parameterStatus = req.getParameter(ParameterConstant.NEW_STATUS).toUpperCase();
-        String parameterRole = req.getParameter(ParameterConstant.NEW_ROLE).toUpperCase();
+    public CommandResult execute(RequestContent requestContent) throws ServletException {
+        String parameterStatus = requestContent.getRequestParameter(ParameterConstant.NEW_STATUS)[0];
+        String parameterRole = requestContent.getRequestParameter(ParameterConstant.NEW_ROLE)[0];
 
-        long userId = Long.parseLong(req.getParameter(ParameterConstant.USER_ID));
+        String parameterUserId = requestContent.getRequestParameter(ParameterConstant.USER_ID)[0];
+        long userId = Long.parseLong(parameterUserId);
         UserStatus userStatus = UserStatus.valueOf(parameterStatus);
         Role userRole = Role.valueOf(parameterRole);
 
         try {
             userService.changeRoleStatus(userId, userRole, userStatus);
-            req.setAttribute(AttributeConstant.MESSAGE, MessageConstant.SUCCESSFULLY_CHANGE_RECORD);
+            requestContent.putRequestAttribute(AttributeConstant.MESSAGE, MessageConstant.SUCCESSFULLY_CHANGE_RECORD);
             logger.info("Admin changed user: {} status: {} and role: {}", userId, userStatus, userRole);
         } catch (ServiceException e) {
             logger.error(e);

@@ -2,18 +2,18 @@ package edu.epam.auth.controller.impl;
 
 import edu.epam.auth.controller.Command;
 import edu.epam.auth.controller.CommandResult;
+import edu.epam.auth.controller.RequestContent;
 import edu.epam.auth.exception.ServiceException;
 import edu.epam.auth.service.UserService;
 import edu.epam.auth.service.impl.UserServiceImpl;
-import edu.epam.auth.util.AttributeConstant;
-import edu.epam.auth.util.MessageConstant;
-import edu.epam.auth.util.PageConstant;
+import edu.epam.auth.constant.AttributeConstant;
+import edu.epam.auth.constant.MessageConstant;
+import edu.epam.auth.constant.PageConstant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 public class UserCleaningCommand implements Command {
 
@@ -23,11 +23,11 @@ public class UserCleaningCommand implements Command {
 
 
     @Override
-    public CommandResult execute(HttpServletRequest req) throws ServletException {
+    public CommandResult execute(RequestContent requestContent) throws ServletException {
         try {
             int changedNumber = userService.deleteMoreThenDayInactive();
             String message = MessageConstant.DELETED_NUMBER + changedNumber;
-            req.setAttribute(AttributeConstant.MESSAGE, message);
+            requestContent.putRequestAttribute(AttributeConstant.MESSAGE, message);
             logger.info("Admin delete more than day inactive users. Deleted number :{}", changedNumber);
         } catch (ServiceException e) {
             logger.error(e);

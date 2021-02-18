@@ -34,6 +34,10 @@
                 <h5 class="card-title">${sessionScope.user.login}</h5>
                 <ul class="list-group">
                     <li class="list-group-item">
+                        <img src="${pageContext.request.contextPath}/multipart?image=${sessionScope.user.image}"
+                             class="d-block w-100" alt="${sessionScope.user.image}"/>
+                    </li>
+                    <li class="list-group-item">
                         <fmt:message key="table.user.field.email" bundle="${b}"/>:
                         ${sessionScope.user.email}
                     </li>

@@ -2,14 +2,15 @@ package edu.epam.auth.controller.impl;
 
 import edu.epam.auth.controller.Command;
 import edu.epam.auth.controller.CommandResult;
+import edu.epam.auth.controller.RequestContent;
 import edu.epam.auth.exception.ServiceException;
 import edu.epam.auth.model.User;
 import edu.epam.auth.service.UserService;
 import edu.epam.auth.service.impl.UserServiceImpl;
-import edu.epam.auth.util.AttributeConstant;
-import edu.epam.auth.util.MessageConstant;
-import edu.epam.auth.util.PageConstant;
-import edu.epam.auth.util.ParameterConstant;
+import edu.epam.auth.constant.AttributeConstant;
+import edu.epam.auth.constant.MessageConstant;
+import edu.epam.auth.constant.PageConstant;
+import edu.epam.auth.constant.ParameterConstant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,8 +26,8 @@ public class UserAdministrationCommand implements Command {
 
 
     @Override
-    public CommandResult execute(HttpServletRequest req) throws ServletException{
-        String parameterPage = req.getParameter(ParameterConstant.PAGE);
+    public CommandResult execute(RequestContent requestContent) throws ServletException{
+        String parameterPage = requestContent.getRequestParameter(ParameterConstant.PAGE)[0];
         int page = 1;
         if(parameterPage != null){
             page = Integer.parseInt(parameterPage);
@@ -35,13 +36,13 @@ public class UserAdministrationCommand implements Command {
         try {
             List<User> userPage = userService.findUserPage(page);
             if(userPage.isEmpty()){
-                req.setAttribute(AttributeConstant.MESSAGE, MessageConstant.USERS_NOT_FOUND);
+                requestContent.putRequestAttribute(AttributeConstant.MESSAGE, MessageConstant.USERS_NOT_FOUND);
             }
             else {
                 long pageCount = userService.getPageCount();
-                req.setAttribute(AttributeConstant.USER_PAGE, userPage);
-                req.setAttribute(AttributeConstant.PAGE, page);
-                req.setAttribute(AttributeConstant.PAGE_COUNT, pageCount);
+                requestContent.putRequestAttribute(AttributeConstant.USER_PAGE, userPage);
+                requestContent.putRequestAttribute(AttributeConstant.PAGE, page);
+                requestContent.putRequestAttribute(AttributeConstant.PAGE_COUNT, pageCount);
             }
         } catch (ServiceException e) {
             logger.error(e);

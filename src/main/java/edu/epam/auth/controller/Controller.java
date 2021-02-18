@@ -1,7 +1,7 @@
 package edu.epam.auth.controller;
 
 import edu.epam.auth.connection.ConnectionPool;
-import edu.epam.auth.util.ParameterConstant;
+import edu.epam.auth.constant.ParameterConstant;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,9 +18,10 @@ public class Controller extends HttpServlet {
         String parameterAction = req.getParameter(ParameterConstant.ACTION).toUpperCase();
         Action action = Action.valueOf(parameterAction);
 
+        RequestContent requestContent = new RequestContent(req);
         Command command = action.getCommand();
-        CommandResult commandResult = command.execute(req);
-
+        CommandResult commandResult = command.execute(requestContent);
+        requestContent.fillRequest(req);
         sendByCommandResult(commandResult, req, resp);
     }
 
@@ -29,9 +30,10 @@ public class Controller extends HttpServlet {
         String parameterAction = req.getParameter(ParameterConstant.ACTION).toUpperCase();
         Action action = Action.valueOf(parameterAction);
 
+        RequestContent requestContent = new RequestContent(req);
         Command command = action.getCommand();
-        CommandResult commandResult = command.execute(req);
-
+        CommandResult commandResult = command.execute(requestContent);
+        requestContent.fillRequest(req);
         sendByCommandResult(commandResult, req, resp);
     }
 

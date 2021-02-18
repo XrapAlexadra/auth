@@ -1,4 +1,4 @@
-package edu.epam.auth.util;
+package edu.epam.auth.constant;
 
 public class ParameterConstant {
 
@@ -19,7 +19,7 @@ public class ParameterConstant {
     public static final String AD_PRICE = "adPrice";
     public static final String AD_CATEGORY = "adCategory";
     public static final String PAGE = "page";
-
+    public static final String IMAGE = "image";
     private ParameterConstant() {
     }
 }
