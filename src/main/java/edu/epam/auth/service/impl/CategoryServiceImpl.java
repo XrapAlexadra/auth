@@ -1,7 +1,6 @@
 package edu.epam.auth.service.impl;
 
 import edu.epam.auth.connection.EntityTransaction;
-import edu.epam.auth.constant.MessageConstant;
 import edu.epam.auth.dao.CategoryDao;
 import edu.epam.auth.dao.impl.CategoryDaoImpl;
 import edu.epam.auth.exception.DaoException;

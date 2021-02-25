@@ -11,15 +11,21 @@
 </head>
 <body>
 <div class="container-fluid">
-    <%@include file="/WEB-INF/part/locale.jsp"%>
-    <%@include file="/WEB-INF/part/header.jsp"%>
-    <c:import url="/WEB-INF/part/message.jsp"/>
+    <%@include file="/WEB-INF/part/locale.jsp" %>
+    <%@include file="/WEB-INF/part/header.jsp" %>
+    <div class="row">
+        <div class="col-2">
+            <%@include file="/WEB-INF/part/menu.jsp" %>
+        </div>
+        <div class="col-10">
+            <c:import url="/WEB-INF/part/message.jsp"/>
 
-    <div class="alert alert-primary" role="alert">
-    <fmt:message key="message.activation1" bundle="${b}"/>
-    <fmt:message key="message.activation2" bundle="${b}"/>
-</div>
-
+            <div class="alert alert-primary" role="alert">
+                <fmt:message key="message.activation1" bundle="${b}"/>
+                <fmt:message key="message.activation2" bundle="${b}"/>
+            </div>
+        </div>
+    </div>
     <%@include file="/WEB-INF/part/footer.jsp" %>
     <jsp:include page="../../bootstrap/script.jsp"/>
 </div>

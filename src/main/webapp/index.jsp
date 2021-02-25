@@ -3,35 +3,37 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="edu.epam.auth.model.Role" %>
 
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>web</title>
-    <%--    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">--%>
-    <jsp:include page="bootstrap/bootsrap.jsp"/>
-</head>
-<body>
-<%@include file="WEB-INF/part/locale.jsp" %>
-<%@include file="WEB-INF/part/header.jsp" %>
+<c:redirect url="/main?action=home"/>
 
-<div class="container-fluid">
-    <div class="row">
-        <%--        <%@include file="page/part/menu.jsp" %>--%>
-        <div class="col-10">
-            <c:import url="WEB-INF/part/message.jsp"/>
-            <h1>Hello </h1>
-        </div>
-    </div>
-</div>
-<%@include file="WEB-INF/part/footer.jsp" %>
+<%--<html>--%>
+<%--<head>--%>
+<%--    <meta charset="UTF-8">--%>
+<%--    <title>web</title>--%>
+<%--    &lt;%&ndash;    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">&ndash;%&gt;--%>
+<%--    <jsp:include page="bootstrap/bootsrap.jsp"/>--%>
+<%--</head>--%>
+<%--<body>--%>
+<%--<%@include file="WEB-INF/part/locale.jsp" %>--%>
+<%--<%@include file="WEB-INF/part/header.jsp" %>--%>
 
-
-<%--<main class="content-wrapper">--%>
-<%--    <div class="container-fluid">--%>
-<%--        <h1>Main Content</h1>--%>
+<%--<div class="container-fluid">--%>
+<%--    <div class="row">--%>
+<%--        &lt;%&ndash;        <%@include file="page/part/menu.jsp" %>&ndash;%&gt;--%>
+<%--        <div class="col-10">--%>
+<%--            <c:import url="WEB-INF/part/message.jsp"/>--%>
+<%--            <h1>Hello </h1>--%>
+<%--        </div>--%>
 <%--    </div>--%>
-<%--</main>--%>
+<%--</div>--%>
+<%--<%@include file="WEB-INF/part/footer.jsp" %>--%>
 
-<%@include file="bootstrap/script.jsp" %>
-</body>
-</html>
+
+<%--&lt;%&ndash;<main class="content-wrapper">&ndash;%&gt;--%>
+<%--&lt;%&ndash;    <div class="container-fluid">&ndash;%&gt;--%>
+<%--&lt;%&ndash;        <h1>Main Content</h1>&ndash;%&gt;--%>
+<%--&lt;%&ndash;    </div>&ndash;%&gt;--%>
+<%--&lt;%&ndash;</main>&ndash;%&gt;--%>
+
+<%--<%@include file="bootstrap/script.jsp" %>--%>
+<%--</body>--%>
+<%--</html>--%>

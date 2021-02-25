@@ -1,6 +1,6 @@
 package edu.epam.auth.controller;
 
-import edu.epam.auth.controller.impl.*;
+import edu.epam.auth.controller.impl.HomePageCommand;
 import edu.epam.auth.controller.impl.admin.*;
 import edu.epam.auth.controller.impl.admin.category.*;
 import edu.epam.auth.controller.impl.authentification.ActivationCommand;
@@ -9,8 +9,10 @@ import edu.epam.auth.controller.impl.authentification.LoginCommand;
 import edu.epam.auth.controller.impl.authentification.RegistrationCommand;
 import edu.epam.auth.controller.impl.user.ChangePasswordCommand;
 import edu.epam.auth.controller.impl.user.ChangeUserImageCommand;
+import edu.epam.auth.controller.impl.user.CreateAdCommand;
 
 public enum Action {
+    HOME(new HomePageCommand()),
     EXIT(new ExitCommand()),
     LOGIN(new LoginCommand()),
     REGISTRATION(new RegistrationCommand()),

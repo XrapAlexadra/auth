@@ -11,14 +11,22 @@
 </head>
 <body>
 <div class="container-fluid">
-    <%@include file="/WEB-INF/part/locale.jsp"%>
-    <%@include file="/WEB-INF/part/header.jsp"%>
-    <c:import url="/WEB-INF/part/message.jsp"/>
+    <%@include file="/WEB-INF/part/locale.jsp" %>
+    <%@include file="/WEB-INF/part/header.jsp" %>
+    <div class="row">
+        <div class="col-2">
+            <%@include file="/WEB-INF/part/menu.jsp" %>
+        </div>
+        <div class="col-10">
+            <c:import url="/WEB-INF/part/message.jsp"/>
 
-    <c:set var="address" value="/main?action=USER_AD&page=" scope="request"/>
+            <c:set var="address" value="/main?action=USER_AD&page=" scope="request"/>
 
-    <%@include file="/WEB-INF/part/pagination.jsp" %>
+            <%@include file="/WEB-INF/part/pagination.jsp" %>
+        </div>
         <%@include file="/WEB-INF/part/footer.jsp" %>
         <jsp:include page="../../bootstrap/script.jsp"/>
+    </div>
+</div>
 </body>
 </html>

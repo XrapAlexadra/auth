@@ -9,5 +9,5 @@ import java.util.Optional;
 
 public interface AdService {
 
-    Map<String, String> addAd(Ad ad) throws ServiceException;
+    Map<String, String> addAd(Ad ad, String price) throws ServiceException;
 }

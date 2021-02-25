@@ -1,17 +1,29 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
-    <ul class="nav flex-column mr-auto sidenav" id="navAccordion">
-        <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+<c:if test="${ not empty sessionScope.catalog}">
+    <ul class="list-group">
+        <li class="list-group-item">
+            <a class="nav-link" href="#">${sessionScope.catalog.category.name}</a
+            <ul>
+                <c:if test="${ not empty sessionScope.catalog.categoryComponents}">
+                    <c:forEach items="${sessionScope.catalog.categoryComponents}" var="secondLevelCategory"
+                               varStatus="index">
+                        <li>
+                            <a class="nav-link" href="#"> ${secondLevelCategory.category.name}</a>
+                            <ul>
+                                <c:forEach items="${secondLevelCategory.categoryComponents}" var="thirdLevelCategory">
+                                    <li>
+                                        <a class="nav-link" href="#"> ${thirdLevelCategory.category.name}</a>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </li>
+                    </c:forEach>
+                </c:if>
+            </ul>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Item 1</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Item 2</a>
-        </li>
-
     </ul>
+</c:if>
 
-</div>
+

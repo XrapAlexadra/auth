@@ -3,11 +3,12 @@ package edu.epam.auth.validator;
 import edu.epam.auth.model.ad.Ad;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AdValidator {
 
-    public static boolean isValidAd(Ad ad){
-        BigDecimal price = ad.getPrice();
-        return  price.compareTo(new BigDecimal(0) )<0;
+    public static Map<String, String> isValidAd(Ad ad, String price){
+        return new HashMap<>();
     }
 }

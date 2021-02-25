@@ -14,6 +14,7 @@ public class PageConstant {
     public static final String CATEGORY_ADMINISTRATION = "/main?action=category_administration";
     public static final String CATEGORY_PAGE = "/page/admin/category.jsp";
     public static final String CATEGORY = "/main?action=category";
+    public static final String HOME_PAGE = "/page/home.jsp";
 
     private PageConstant() {
     }
