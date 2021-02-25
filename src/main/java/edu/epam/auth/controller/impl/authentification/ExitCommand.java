@@ -1,4 +1,4 @@
-package edu.epam.auth.controller.impl;
+package edu.epam.auth.controller.impl.authentification;
 
 import edu.epam.auth.controller.Command;
 import edu.epam.auth.controller.CommandResult;

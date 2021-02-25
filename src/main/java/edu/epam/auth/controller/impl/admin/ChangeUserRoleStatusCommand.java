@@ -1,4 +1,4 @@
-package edu.epam.auth.controller.impl;
+package edu.epam.auth.controller.impl.admin;
 
 import edu.epam.auth.controller.Command;
 import edu.epam.auth.controller.CommandResult;
@@ -16,7 +16,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 
 public class ChangeUserRoleStatusCommand implements Command {
 
@@ -27,13 +26,13 @@ public class ChangeUserRoleStatusCommand implements Command {
 
     @Override
     public CommandResult execute(RequestContent requestContent) throws ServletException {
-        String parameterStatus = requestContent.getRequestParameter(ParameterConstant.NEW_STATUS)[0];
-        String parameterRole = requestContent.getRequestParameter(ParameterConstant.NEW_ROLE)[0];
+        String parameterStatus = requestContent.getRequestParameter(ParameterConstant.NEW_STATUS);
+        String parameterRole = requestContent.getRequestParameter(ParameterConstant.NEW_ROLE);
+        String parameterUserId = requestContent.getRequestParameter(ParameterConstant.USER_ID);
 
-        String parameterUserId = requestContent.getRequestParameter(ParameterConstant.USER_ID)[0];
         long userId = Long.parseLong(parameterUserId);
-        UserStatus userStatus = UserStatus.valueOf(parameterStatus);
-        Role userRole = Role.valueOf(parameterRole);
+        UserStatus userStatus = UserStatus.valueOf(parameterStatus.toUpperCase());
+        Role userRole = Role.valueOf(parameterRole.toUpperCase());
 
         try {
             userService.changeRoleStatus(userId, userRole, userStatus);

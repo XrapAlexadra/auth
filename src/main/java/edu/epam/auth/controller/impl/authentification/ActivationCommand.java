@@ -1,4 +1,4 @@
-package edu.epam.auth.controller.impl;
+package edu.epam.auth.controller.impl.authentification;
 
 import edu.epam.auth.controller.Command;
 import edu.epam.auth.controller.CommandResult;
@@ -14,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 
 public class ActivationCommand implements Command {
 
@@ -24,8 +23,8 @@ public class ActivationCommand implements Command {
 
     @Override
     public CommandResult execute(RequestContent requestContent) throws ServletException {
-        String activationKey = requestContent.getRequestParameter(ParameterConstant.ACTIVATION_KEY)[0];
-        String login = requestContent.getRequestParameter(ParameterConstant.LOGIN)[0];
+        String activationKey = requestContent.getRequestParameter(ParameterConstant.ACTIVATION_KEY);
+        String login = requestContent.getRequestParameter(ParameterConstant.LOGIN);
         CommandResult commandResult;
             try {
                 String activationResult = userService.checkActivationKey(login, activationKey);

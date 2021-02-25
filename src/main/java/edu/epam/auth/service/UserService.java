@@ -7,6 +7,7 @@ import edu.epam.auth.model.UserStatus;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 public interface UserService {
@@ -28,4 +29,6 @@ public interface UserService {
     List<User> findUserPage(int page) throws ServiceException;
 
     long getPageCount() throws ServiceException;
+
+    Optional<User> changeImage(long userId, String image)throws ServiceException;
 }

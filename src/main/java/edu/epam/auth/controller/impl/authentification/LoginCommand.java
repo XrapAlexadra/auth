@@ -1,4 +1,4 @@
-package edu.epam.auth.controller.impl;
+package edu.epam.auth.controller.impl.authentification;
 
 import edu.epam.auth.controller.Command;
 import edu.epam.auth.controller.CommandResult;
@@ -15,8 +15,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 public class LoginCommand implements Command {
 
@@ -26,8 +24,8 @@ public class LoginCommand implements Command {
 
     @Override
     public CommandResult execute(RequestContent requestContent) throws ServletException {
-        String login = requestContent.getRequestParameter(ParameterConstant.LOGIN)[0];
-        String pass = requestContent.getRequestParameter(ParameterConstant.PASSWORD)[0];
+        String login = requestContent.getRequestParameter(ParameterConstant.LOGIN);
+        String pass = requestContent.getRequestParameter(ParameterConstant.PASSWORD);
 
         User user = new User();
         user.setLogin(login);

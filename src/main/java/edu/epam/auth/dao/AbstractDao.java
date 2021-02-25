@@ -2,6 +2,7 @@ package edu.epam.auth.dao;
 
 import edu.epam.auth.exception.DaoException;
 import edu.epam.auth.model.Entity;
+import edu.epam.auth.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,11 +22,7 @@ public abstract class AbstractDao <K, T extends Entity> {
 
     public abstract void update(T t) throws DaoException;
 
-    public abstract void deleteById(K k) throws DaoException;
-
-    public abstract List<T> findNumberFrom(K from, int number) throws DaoException;
-
-    public abstract K getTotalNumber() throws DaoException;
+    public abstract boolean deleteById(K k) throws DaoException;
 
     public void close(Statement statement){
         try {
@@ -37,7 +34,7 @@ public abstract class AbstractDao <K, T extends Entity> {
         }
     }
 
-    void setConnection(Connection connection){
+    public void setConnection(Connection connection){
         this.connection = connection;
     }
 }

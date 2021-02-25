@@ -10,6 +10,9 @@ public class AttributeConstant {
     public static final String PAGE = "page";
     public static final String PAGE_COUNT = "pageCount";
     public static final String ERRORS = "errors";
+    public static final String LOCALE = "language";
+    public static final String CATALOG = "catalog";
+    public static final String CATEGORY = "category";
     private AttributeConstant() {
     }
 }

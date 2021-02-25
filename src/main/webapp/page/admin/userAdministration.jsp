@@ -22,6 +22,7 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
+                    <th></th>
                     <th scope="col"><fmt:message key="table.user.field.id" bundle="${b}"/></th>
                     <th scope="col"><fmt:message key="table.user.field.login" bundle="${b}"/></th>
                     <th scope="col"><fmt:message key="table.user.field.email" bundle="${b}"/></th>
@@ -34,6 +35,10 @@
                 <tbody>
                 <c:forEach items="${requestScope.userPage}" var="user">
                     <tr>
+                        <td>
+                            <img src="${pageContext.request.contextPath}/multipart?image=${user.image}" width="45"
+                                 class="d-block" alt="${user.image}"/>
+                        </td>
                         <td scope="row">${user.id}</td>
                         <td>${user.login}</td>
                         <td>${user.email}</td>

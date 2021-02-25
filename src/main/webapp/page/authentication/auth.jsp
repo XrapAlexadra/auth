@@ -29,11 +29,9 @@
                             <c:when test="${empty requestScope.login}">
                                 <input type="text" name="login" class="form-control" id="login"
                                        aria-describedby=loginFeedBack" pattern="^[\w]{1,20}$" required>
-                                <c:if test="${not empty requestScope.errors} ">
-                                    <div id="loginFeedBack" class="invalid-feedback">
+                                    <div id="loginFeedBack" class="valid-feedback">
                                         <fmt:message key="message.invalid.login" bundle="${b}"/>
                                     </div>
-                                </c:if>
                             </c:when>
                             <c:when test="${not empty requestScope.login}">
                                 <input type="text" name="login" class="form-control" id="login"
@@ -89,7 +87,9 @@
                         </c:if>
                     </div>
                     <div class="mb-3">
-                        <label for="image" class="form-label">file</label>
+                        <label for="image" class="form-label">
+                            <fmt:message key="title.user.image.select" bundle="${b}"/>
+                        </label>
                         <input type="file" id="image" name="image" size="300"/>
                     </div>
                     <input type="hidden" name="action" value="registration">

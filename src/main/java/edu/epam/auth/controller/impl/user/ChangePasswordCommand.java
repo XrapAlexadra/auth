@@ -1,4 +1,4 @@
-package edu.epam.auth.controller.impl;
+package edu.epam.auth.controller.impl.user;
 
 import edu.epam.auth.controller.Command;
 import edu.epam.auth.controller.CommandResult;
@@ -14,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class ChangePasswordCommand implements Command {
@@ -25,10 +24,10 @@ public class ChangePasswordCommand implements Command {
 
     @Override
     public CommandResult execute(RequestContent requestContent) throws ServletException {
-        String password = requestContent.getRequestParameter(ParameterConstant.PASSWORD)[0];
-        String newPassword = requestContent.getRequestParameter(ParameterConstant.NEW_PASSWORD)[0];
-        String repeatedPassword = requestContent.getRequestParameter(ParameterConstant.REPEAT_PASSWORD)[0];
-        String login = requestContent.getRequestParameter(ParameterConstant.LOGIN)[0];
+        String password = requestContent.getRequestParameter(ParameterConstant.PASSWORD);
+        String newPassword = requestContent.getRequestParameter(ParameterConstant.NEW_PASSWORD);
+        String repeatedPassword = requestContent.getRequestParameter(ParameterConstant.REPEAT_PASSWORD);
+        String login = requestContent.getRequestParameter(ParameterConstant.LOGIN);
 
         List<String> changePasswordResult;
         try {

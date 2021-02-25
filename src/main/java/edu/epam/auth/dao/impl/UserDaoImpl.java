@@ -1,6 +1,5 @@
 package edu.epam.auth.dao.impl;
 
-import edu.epam.auth.dao.AbstractDao;
 import edu.epam.auth.dao.UserDao;
 import edu.epam.auth.exception.DaoException;
 import edu.epam.auth.model.Role;
@@ -17,39 +16,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UserDaoImpl extends AbstractDao<Long, User> implements UserDao{
+public class UserDaoImpl extends UserDao{
 
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
     private static final String INSERT =
             "INSERT INTO users (login, password, email, role, status, image, activation_key, registration_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String FIND_BY_LOGIN =
-            "SELECT u.user_id, u.login, u.email, u.role, u.status, u.image, u.activation_key, " +
-                    "u.registration_date, u.last_login_date FROM users AS u WHERE u.login = ?;";
+            "SELECT u.user_id, u.login, u.email, u.role, u.status, u.image, u.activation_key, u.registration_date, u.last_login_date FROM users AS u WHERE u.login = ?;";
 
     private static final String FIND_PASSWORD_BY_LOGIN =
             "SELECT u.password FROM users AS u WHERE u.login=?;";
     private static final String FIND_BY_ID =
-            "SELECT u.user_id, u.login, u.email, u.role, u.status, u.image, u.activation_key, " +
-                    "u.registration_date, u.last_login_date FROM users AS u WHERE u.user_id=?;";
+            "SELECT u.user_id, u.login, u.email, u.role, u.status, u.image, u.activation_key, u.registration_date, u.last_login_date FROM users AS u WHERE u.user_id=?;";
     public static final String DELETE = "DELETE FROM users WHERE users.User_id=?;";
 
     private static final String UPDATE_USER =
-            "UPDATE users AS u SET u.activation_key=?, u.last_login_date = ?, " +
-                    "u.status = ?, u.role = ?, u.image = ?, u.email= ? " +
-                    "WHERE u.user_id=?;";
+            "UPDATE users AS u SET u.activation_key=?, u.last_login_date = ?, u.status = ?, u.role = ?, u.image = ?, u.email= ? WHERE u.user_id=?;";
     private static final String FIND_ALL =
-            "SELECT u.user_id, u.login, u.email, u.role, u.status, u.image, u.activation_key, " +
-                    "u.registration_date, u.last_login_date FROM users AS u;";
+            "SELECT u.user_id, u.login, u.email, u.role, u.status, u.image, u.activation_key, u.registration_date, u.last_login_date FROM users AS u;";
     private static final String DELETE_MORE_THAN_DAY_INACTIVE =
             "DELETE FROM users WHERE users.registration_date<? and users.activation_key IS NOT NULL;";
     private static final String UPDATE_PASSWORD =
             "UPDATE users AS u SET u.password=? WHERE u.login=?;";
 
     private static final String FIND_FROM_TO =
-            "SELECT u.user_id, u.login, u.email, u.role, u.status, u.image, u.activation_key, " +
-                    "u.registration_date, u.last_login_date FROM users AS u " +
-                    "LIMIT ? OFFSET ?;";
+            "SELECT u.user_id, u.login, u.email, u.role, u.status, u.image, u.activation_key, u.registration_date, u.last_login_date FROM users AS u LIMIT ? OFFSET ?;";
 
     private static final String FIND_ALL_COUNT = "SELECT COUNT(user_id) AS count FROM users;";
 
@@ -128,16 +120,18 @@ public class UserDaoImpl extends AbstractDao<Long, User> implements UserDao{
     }
 
     @Override
-    public void deleteById(Long userId) throws DaoException {
+    public boolean deleteById(Long userId) throws DaoException {
+        boolean result = false;
         try (PreparedStatement statement = connection.prepareStatement(DELETE)) {
             statement.setLong(1, userId);
             int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0) {
-                throw new DaoException("User id: " + userId + " don't delete!");
+            if (affectedRows != 0) {
+                result = true;
             }
         } catch (SQLException e) {
             throw new DaoException(e);
         }
+        return result;
     }
 
     @Override

@@ -27,9 +27,10 @@ public class RequestContent {
         this.requestParameters = requestParameters;
     }
 
-    public String[] getRequestParameter(String parameterName) {
+    public String getRequestParameter(String parameterName) {
         String[] parameterValues = requestParameters.get(parameterName);
-        return parameterValues;
+        String parameter = parameterValues == null? null: parameterValues[0];
+        return parameter;
     }
 
     public void putRequestAttribute(String attributeName, Object attribute) {

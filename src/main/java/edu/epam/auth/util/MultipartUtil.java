@@ -37,6 +37,9 @@ public class MultipartUtil {
                     String[] parameter = {item.getName()};
                     requestParameters.put(name, parameter);
                 }
+                else {
+                    requestParameters.put(name, new String[1]);
+                }
             }
         }
         return requestParameters;

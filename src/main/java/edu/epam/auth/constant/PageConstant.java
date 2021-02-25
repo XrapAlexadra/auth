@@ -10,6 +10,10 @@ public class PageConstant {
     public static final String USER_PROFILE_PAGE = "/page/user/userProfile.jsp";
     public static final String USER_ADMINISTRATION = "/main?action=USER_ADMINISTRATION";
     public static final String CREATE_AD = "/page/user/creatingAd.jsp";
+    public static final String CATEGORY_ADMINISTRATION_PAGE = "/page/admin/categoryAdministration.jsp";
+    public static final String CATEGORY_ADMINISTRATION = "/main?action=category_administration";
+    public static final String CATEGORY_PAGE = "/page/admin/category.jsp";
+    public static final String CATEGORY = "/main?action=category";
 
     private PageConstant() {
     }

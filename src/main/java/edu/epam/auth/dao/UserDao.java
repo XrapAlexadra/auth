@@ -7,17 +7,21 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserDao extends BaseDao<Long, User>{
+public abstract class UserDao extends AbstractDao<Long, User>{
 
-    long save(User user, String password) throws DaoException;
+    public abstract long save(User user, String password) throws DaoException;
 
-    Optional<User> findByLogin(String login) throws DaoException;
+    public abstract Optional<User> findByLogin(String login) throws DaoException;
 
-    Optional<String> findPasswordByLogin(String login) throws DaoException;
+    public abstract Optional<String> findPasswordByLogin(String login) throws DaoException;
 
-    List<User> findAll()throws DaoException;
+    public abstract List<User> findAll()throws DaoException;
 
-    int deleteMoreThenInactive(LocalDate date)throws DaoException;
+    public abstract int deleteMoreThenInactive(LocalDate date)throws DaoException;
 
-    void updatePassword(String login, String newPassword) throws DaoException;
+    public abstract void updatePassword(String login, String newPassword) throws DaoException;
+
+    public abstract List<User> findNumberFrom(Long from, int number) throws DaoException;
+
+    public abstract Long getTotalNumber() throws DaoException;
 }

@@ -1,4 +1,4 @@
-package edu.epam.auth.controller.impl;
+package edu.epam.auth.controller.impl.admin;
 
 import edu.epam.auth.controller.Command;
 import edu.epam.auth.controller.CommandResult;
@@ -13,7 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 
 public class UserCleaningCommand implements Command {
 
@@ -33,7 +32,7 @@ public class UserCleaningCommand implements Command {
             logger.error(e);
             throw new ServletException(e);
         }
-        CommandResult commandResult = CommandResult.setForwardPage( PageConstant.USER_ADMINISTRATION);
+        CommandResult commandResult = CommandResult.setForwardPage(PageConstant.USER_ADMINISTRATION);
         return commandResult;
     }
 }

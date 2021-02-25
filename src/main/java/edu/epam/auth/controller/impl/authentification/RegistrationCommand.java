@@ -1,6 +1,5 @@
-package edu.epam.auth.controller.impl;
+package edu.epam.auth.controller.impl.authentification;
 
-import edu.epam.auth.constant.ParameterConstant;
 import edu.epam.auth.controller.Command;
 import edu.epam.auth.controller.CommandResult;
 import edu.epam.auth.controller.RequestContent;
@@ -15,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import static edu.epam.auth.constant.ParameterConstant.*;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +28,11 @@ public class RegistrationCommand implements Command {
     @Override
     public CommandResult execute(RequestContent requestContent) throws ServletException {
 
-        String login = requestContent.getRequestParameter(LOGIN)[0];
-        String password = requestContent.getRequestParameter(PASSWORD)[0];
-        String passwordRepeat =requestContent.getRequestParameter(REPEAT_PASSWORD)[0];
-        String email = requestContent.getRequestParameter(EMAIL)[0];
-        String image = requestContent.getRequestParameter(IMAGE)[0];
+        String login = requestContent.getRequestParameter(LOGIN);
+        String password = requestContent.getRequestParameter(PASSWORD);
+        String passwordRepeat =requestContent.getRequestParameter(REPEAT_PASSWORD);
+        String email = requestContent.getRequestParameter(EMAIL);
+        String image = requestContent.getRequestParameter(IMAGE);
 
         CommandResult commandResult;
         Map<String, String> registerUserResult;

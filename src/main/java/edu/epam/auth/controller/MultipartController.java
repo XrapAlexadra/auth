@@ -43,7 +43,7 @@ public class MultipartController extends HttpServlet {
             throw new ServletException(e);
         }
         RequestContent requestContent = new RequestContent(requestParameters);
-        String parameterAction = requestContent.getRequestParameter(ParameterConstant.ACTION)[0];
+        String parameterAction = requestContent.getRequestParameter(ParameterConstant.ACTION);
         Action action = Action.valueOf(parameterAction.toUpperCase());
         Command command = action.getCommand();
         CommandResult commandResult = command.execute(requestContent);

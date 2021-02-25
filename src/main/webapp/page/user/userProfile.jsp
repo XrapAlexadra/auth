@@ -11,8 +11,8 @@
 </head>
 <body>
 <div class="container-fluid">
-    <%@include file="/WEB-INF/part/locale.jsp"%>
-    <%@include file="/WEB-INF/part/header.jsp"%>
+    <%@include file="/WEB-INF/part/locale.jsp" %>
+    <%@include file="/WEB-INF/part/header.jsp" %>
     <c:import url="/WEB-INF/part/message.jsp"/>
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -35,7 +35,20 @@
                 <ul class="list-group">
                     <li class="list-group-item">
                         <img src="${pageContext.request.contextPath}/multipart?image=${sessionScope.user.image}"
-                             class="d-block w-100" alt="${sessionScope.user.image}"/>
+                             class="d-block w-40" alt="${sessionScope.user.image}"/>
+                        <form action="${pageContext.request.contextPath}/multipart" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="image" class="form-label">
+                                    <fmt:message key="title.user.image.select" bundle="${b}"/>
+                                </label>
+                                <input type="file" id="image" name="image" size="300" required/>
+                            </div>
+                            <input type="hidden" name="action" value="change_user_image">
+                            <input type="hidden" name="userId" value="${sessionScope.user.id}">
+                            <button type="submit" class="btn btn-primary">
+                                <fmt:message key="button.change" bundle="${b}"/>
+                            </button>
+                        </form>
                     </li>
                     <li class="list-group-item">
                         <fmt:message key="table.user.field.email" bundle="${b}"/>:

@@ -1,8 +1,9 @@
-package edu.epam.auth.controller.impl;
+package edu.epam.auth.controller.impl.admin;
 
 import edu.epam.auth.controller.Command;
 import edu.epam.auth.controller.CommandResult;
 import edu.epam.auth.controller.RequestContent;
+import edu.epam.auth.controller.impl.authentification.RegistrationCommand;
 import edu.epam.auth.exception.ServiceException;
 import edu.epam.auth.model.User;
 import edu.epam.auth.service.UserService;
@@ -15,7 +16,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class UserAdministrationCommand implements Command {
@@ -27,12 +27,11 @@ public class UserAdministrationCommand implements Command {
 
     @Override
     public CommandResult execute(RequestContent requestContent) throws ServletException{
-        String parameterPage = requestContent.getRequestParameter(ParameterConstant.PAGE)[0];
+        String parameterPage = requestContent.getRequestParameter(ParameterConstant.PAGE);
         int page = 1;
         if(parameterPage != null){
             page = Integer.parseInt(parameterPage);
         }
-
         try {
             List<User> userPage = userService.findUserPage(page);
             if(userPage.isEmpty()){

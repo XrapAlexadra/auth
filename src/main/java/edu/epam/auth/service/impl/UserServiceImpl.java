@@ -1,6 +1,7 @@
 package edu.epam.auth.service.impl;
 
-import edu.epam.auth.dao.EntityTransaction;
+import edu.epam.auth.connection.EntityTransaction;
+import edu.epam.auth.dao.UserDao;
 import edu.epam.auth.exception.DaoException;
 import edu.epam.auth.exception.EncodeServiceException;
 import edu.epam.auth.exception.ServiceException;
@@ -41,7 +42,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, String> register(User user, String password, String repeatedPassword) throws ServiceException {
         Map<String, String> result;
-        UserDaoImpl userDao = new UserDaoImpl();
+        UserDao userDao = new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.begin(userDao);
         try {
@@ -80,7 +81,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String checkActivationKey(String login, String activationKye) throws ServiceException {
         String result = INVALID_ACTIVATION_LINK;
-        UserDaoImpl userDao = new UserDaoImpl();
+        UserDao userDao = new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.begin(userDao);
         try {
@@ -130,7 +131,7 @@ public class UserServiceImpl implements UserService {
         LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
         int deletedNumber;
-        UserDaoImpl userDao = new UserDaoImpl();
+        UserDao userDao = new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.begin(userDao);
         try {
@@ -149,7 +150,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<String> changePassword(String login, String password, String newPassword, String repeatedPassword) throws ServiceException {
         List<String> result = new ArrayList<>();
-        UserDaoImpl userDao = new UserDaoImpl();
+        UserDao userDao = new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.begin(userDao);
         try {
@@ -186,9 +187,10 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+
     @Override
     public void changeRoleStatus(long userId, Role role, UserStatus userStatus) throws ServiceException {
-        UserDaoImpl userDao = new UserDaoImpl();
+        UserDao userDao = new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.begin(userDao);
         try {
@@ -212,7 +214,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findUserPage(int page) throws ServiceException {
-        UserDaoImpl userDao = new UserDaoImpl();
+        UserDao userDao = new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.begin(userDao);
         List<User> userPage = new ArrayList<>();
@@ -234,7 +236,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public long getPageCount() throws ServiceException {
         long pageCount;
-        UserDaoImpl userDao = new UserDaoImpl();
+        UserDao userDao = new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.begin(userDao);
         try {
@@ -249,27 +251,39 @@ public class UserServiceImpl implements UserService {
         return pageCount;
     }
 
-    //
-//    @Override
-//    public boolean delete(long id) {
-//        boolean result = false;
-//        Optional<User> userInRepository = userDao.findById(id);
-//        if(userInRepository.isPresent()){
-//            result = userDao.delete(id);
-//            logger.info("Delete user {} from repository.", userInRepository);
-//        }
-//        else {
-//            logger.info("There's not user with id {} in the repository.", id);
-//        }
-//        return result;
-//    }
-//
+    @Override
+    public Optional<User> changeImage(long userId, String image) throws ServiceException {
+        UserDao userDao = new UserDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.begin(userDao);
+        Optional<User> userFromBd;
+        try {
+            userFromBd = userDao.findById(userId);
+            if (userFromBd.isPresent()) {
+                User user = userFromBd.get();
+                deleteImage(user.getImage());
+                user.setImage(image);
+                userDao.update(user);
+                userFromBd = Optional.of(user);
+                logger.info("User: {} changed image: {} .", userId, image);
+            }
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            logger.error(e);
+            throw new ServiceException(e);
+        } finally {
+            transaction.end();
+        }
+        return userFromBd;
+    }
+
     @Override
     public String login(User user, String password) throws ServiceException {
         String result = "";
         String login = user.getLogin();
         if (UserValidator.isValidLogin(login)) {
-            UserDaoImpl userDao = new UserDaoImpl();
+            UserDao userDao = new UserDaoImpl();
             EntityTransaction transaction = new EntityTransaction();
             transaction.begin(userDao);
             try {
@@ -324,7 +338,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private long getPageCountFromBd(UserDaoImpl userDao) throws DaoException {
+    private long getPageCountFromBd(UserDao userDao) throws DaoException {
         long totalNumber = userDao.getTotalNumber();
         long pageCount = (totalNumber / USER_PAGE_COUNT);
         pageCount = totalNumber % USER_PAGE_COUNT == 0 ? pageCount : pageCount + 1;
@@ -348,6 +362,11 @@ public class UserServiceImpl implements UserService {
         user.setRegistrationDate(LocalDate.now());
         user.setRole(Role.USER);
         user.setStatus(UserStatus.INACTIVE);
+    }
+
+    private void deleteImage(String image){
+        File file = new File(PathConstant.USER_IMAGE_PATH + image);
+        file.delete();
     }
 
 }

@@ -1,6 +1,6 @@
-package edu.epam.auth.dao;
+package edu.epam.auth.connection;
 
-import edu.epam.auth.connection.ConnectionPool;
+import edu.epam.auth.dao.AbstractDao;
 import edu.epam.auth.exception.ConnectionPoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,12 +12,11 @@ public class EntityTransaction {
 
     private static final Logger logger = LogManager.getLogger(EntityTransaction.class);
 
-
     private Connection connection;
 
     private final ConnectionPool pool = ConnectionPool.getInstance();
 
-    public void begin(AbstractDao ... daos){
+    public void begin(AbstractDao... daos){
         if(connection == null){
             connection = pool.getConnection();
         }

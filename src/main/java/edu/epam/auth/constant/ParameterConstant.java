@@ -20,6 +20,11 @@ public class ParameterConstant {
     public static final String AD_CATEGORY = "adCategory";
     public static final String PAGE = "page";
     public static final String IMAGE = "image";
+    public static final String LOCALE = "language";
+    public static final String CATEGORY_NAME = "categoryName";
+    public static final String CATEGORY_UP_LEVEL_ID = "upCategoryId";
+    public static final String CATEGORY_ID = "categoryId";
+
     private ParameterConstant() {
     }
 }
